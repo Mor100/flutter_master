@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'home_page.dart';
 import 'category_page.dart';
@@ -39,9 +40,13 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance =
+        ScreenUtil(height: 1776, width: 1080, allowFontScaling: true)
+          ..init(context);
+
     return Container(
         child: Scaffold(
-      body: currentPage,
+      body: IndexedStack(index: currentIndex,children: bodyTabs,),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: bottomTabs,
