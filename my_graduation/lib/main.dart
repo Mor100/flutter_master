@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _pages = <Widget>[NewsPage(), VideoPage(), MyPage()];
+  var _pages;
   var _currentIndex;
   bool _visible;
 
@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _pages = <Widget>[NewsPage(), VideoPage(), MyPage(context)];
     _currentIndex = 0;
   }
 

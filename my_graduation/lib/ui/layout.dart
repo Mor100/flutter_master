@@ -4,8 +4,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:my_graduation/entity/news/data.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:video_player/video_player.dart';
+import '../channel/channels.dart';
+import 'package:flutter/services.dart';
 
 class CustomLayout {
+  static Future<Null> _openWebView(String title,String url)async{
+    await WEB_VIEW_CHANNEL.invokeMethod('openWebView',{'title':title,'url':url});
+  }
+
   static Widget listItemAllPic(Data data, BuildContext context) {
     return Column(
       children: <Widget>[
@@ -14,7 +20,7 @@ class CustomLayout {
           child: Slidable(
             child: ListTile(
               onTap: () {
-
+                _openWebView(data.title, data.url);
               },
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +141,9 @@ class CustomLayout {
             color: Colors.white,
             child: Slidable(
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+
+                },
                 leading: Image.network(
                   data.pic,
                   height: 80,

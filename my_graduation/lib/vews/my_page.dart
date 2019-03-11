@@ -5,32 +5,34 @@ import 'package:my_graduation/ui/custom_buttom.dart';
 import 'package:my_graduation/ui/head_view.dart';
 import 'package:my_graduation/ui/layout.dart';
 import 'package:my_graduation/vews/login_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class MyPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      color: Colors.blue,
-      home: MyHomePage(),
-    );
-  }
-}
+class MyPage extends StatefulWidget {
+  BuildContext context;
 
-class MyHomePage extends StatefulWidget {
+  MyPage(this.context);
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _MyHomePageState();
+    return _MyPageState();
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyPageState extends State<MyPage> {
   String _userName;
   static const channel = const MethodChannel('flutter.io/dialog');
 
   Future<Null> _showNativeDialog() async {
     await channel.invokeMethod('showCustomDialog');
+  }
+
+  void _urlLauncher(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw Exception('无法打开网页');
+    }
   }
 
   @override
@@ -43,8 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      body: Stack(
+    return SingleChildScrollView(
+      child: Stack(
         children: <Widget>[
           Container(
             color: Colors.grey[100],
@@ -63,11 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           context: context,
                           builder: (ctx) {
                             return CupertinoAlertDialog(
-                              title: Text('您还未登录'),
+                              title: Text('您还未登录,请先登录'),
                               actions: <Widget>[
                                 FlatButton(
                                     onPressed: () {
                                       Navigator.pop(ctx);
+                                      Navigator.push(
+                                          widget.context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
                                     },
                                     child: Text(
                                       '确定',
@@ -94,7 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 CustomButton(
                   trailing: Icon(Icons.keyboard_arrow_right),
                   title: Text('京东特供'),
-                  onTab: () {},
+                  onTab: () {
+                    _urlLauncher('https://m.jd.com');
+                  },
                 ),
                 SizedBox(
                   height: 1,
@@ -102,15 +111,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 CustomButton(
                   title: Text('淘宝商城'),
                   trailing: Icon(Icons.keyboard_arrow_right),
-                  onTab: () {},
+                  onTab: () {
+                    _urlLauncher('https://h5.m.taobao.com');
+                  },
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                CustomButton(
-                  title: Text('用户反馈'),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  onTab: () {},
                 ),
                 SizedBox(
                   height: 1,
@@ -118,7 +124,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 CustomButton(
                   title: Text('检查版本'),
                   trailing: Icon(Icons.keyboard_arrow_right),
-                  onTab: () {},
+                  onTab: () {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.blueAccent,
+                      content: Text('已是最新版本'),
+                      duration: Duration(milliseconds: 800),
+                    ));
+                  },
                 )
               ],
             ),
@@ -128,19 +140,21 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
               color: Colors.blue,
               height: 300,
+              child: Container(
+                  child: GestureDetector(
+                    child: CustomLayout.headPortrait(
+                        'images/unlogined.png', _userName),
+                    onTap: () {
+                      Navigator.push(
+                          widget.context,
+                          CupertinoPageRoute(
+                              builder: (context) => LoginPage()));
+                    },
+                  ),
+                  margin: EdgeInsets.only(top: 50),
+                  alignment: Alignment.center),
             ),
           ),
-          Container(
-              child: GestureDetector(
-                child: CustomLayout.headPortrait(
-                    'images/unlogined.png', _userName),
-                onTap: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => LoginPage()));
-                },
-              ),
-              margin: EdgeInsets.only(top: 50),
-              alignment: Alignment.center),
         ],
       ),
     );

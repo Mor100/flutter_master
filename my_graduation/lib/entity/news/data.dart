@@ -22,7 +22,10 @@ class Data {
   @JsonKey(name: 'date')
   String date;
 
-  Data([this.pic, this.title, this.authorName, this.pic02, this.pic03,this.date]);
+  @JsonKey(name: 'url')
+  String url;
+
+  Data([this.pic, this.title, this.authorName, this.pic02, this.pic03,this.date,this.url]);
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
