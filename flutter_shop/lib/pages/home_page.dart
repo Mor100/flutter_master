@@ -225,6 +225,7 @@ class TopNaivgator extends StatelessWidget {
       height: ScreenUtil().setHeight(400),
       padding: EdgeInsets.all(3),
       child: GridView.count(
+          physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 5,
           padding: EdgeInsets.all(5),
           children: navigatorList.map((item) {
