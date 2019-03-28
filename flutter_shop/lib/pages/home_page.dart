@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage>
           margin: EdgeInsets.all(1),
           padding: EdgeInsets.all(5),
           color: Colors.white,
-          width: ScreenUtil().setWidth(500),
+          width: ScreenUtil().setWidth(530),
           child: Column(
             children: <Widget>[
               Image.network(
