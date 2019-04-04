@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'dart:convert';
+import 'package:flutter_shop/application/application.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -19,7 +20,9 @@ class _HomePageState extends State<HomePage>
   GlobalKey<RefreshFooterState> _footKey = GlobalKey<RefreshFooterState>();
 
   Widget _goodsItem(var src) => InkWell(
-        onTap: () {},
+        onTap: () {
+          Application.router.navigateTo(context, '/detail?id=${src['goodsId']}');
+        },
         child: Container(
           margin: EdgeInsets.all(1),
           padding: EdgeInsets.all(5),
@@ -121,6 +124,7 @@ class _HomePageState extends State<HomePage>
                     children: <Widget>[
                       SwiperDiy(
                         swiperList: swiperList,
+                        
                       ),
                       TopNaivgator(
                         navigatorList: navigatorList,
@@ -185,6 +189,9 @@ class SwiperDiy extends StatelessWidget {
     return Container(
       height: ScreenUtil().setHeight(455),
       child: Swiper(
+        onTap: (index){
+          Application.router.navigateTo(context, '/detail?id=${swiperList[index]['goodsId']}');
+        },
         itemCount: swiperList.length,
         itemBuilder: (context, index) => Image.network(
               '${swiperList[index]['image']}',
@@ -304,9 +311,11 @@ class Recommend extends StatelessWidget {
     );
   }
 
-  Widget _item(String src, double mallPrice, double price) {
+  Widget _item(int index,String src, double mallPrice, double price,BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(context, '/detail?id=${recommendList[index]['goodsId']}');
+      },
       child: Container(
         height: ScreenUtil().setHeight(360),
         width: ScreenUtil().setWidth(360),
@@ -337,8 +346,8 @@ class Recommend extends StatelessWidget {
         itemCount: recommendList.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return _item(recommendList[index]['image'],
-              recommendList[index]['mallPrice'], recommendList[index]['price']);
+          return _item(index,recommendList[index]['image'],
+              recommendList[index]['mallPrice'], recommendList[index]['price'],context);
         },
       ),
     );
@@ -376,27 +385,27 @@ class Floor extends StatelessWidget {
 
   Floor({Key key, this.floorList}) : super(key: key);
 
-  Widget _goodsItem(Map src) {
+  Widget _goodsItem(Map src,BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(540),
       child: InkWell(
         onTap: () {
-          print(src.toString());
+          // Application.router.navigateTo(context, '/detail?id=${src.toString()}');
         },
         child: Image.network(src['image']),
       ),
     );
   }
 
-  Widget _firstRow() {
+  Widget _firstRow(BuildContext context) {
     return Container(
       child: Row(
         children: <Widget>[
-          _goodsItem(floorList[0]),
+          _goodsItem(floorList[0],context),
           Column(
             children: <Widget>[
-              _goodsItem(floorList[1]),
-              _goodsItem(floorList[2]),
+              _goodsItem(floorList[1],context),
+              _goodsItem(floorList[2],context),
             ],
           )
         ],
@@ -404,12 +413,12 @@ class Floor extends StatelessWidget {
     );
   }
 
-  Widget _secondRow() {
+  Widget _secondRow(BuildContext context) {
     return Container(
       child: Row(
         children: <Widget>[
-          _goodsItem(floorList[3]),
-          _goodsItem(floorList[4]),
+          _goodsItem(floorList[3],context),
+          _goodsItem(floorList[4],context),
         ],
       ),
     );
@@ -419,7 +428,7 @@ class Floor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: <Widget>[_firstRow(), _secondRow()],
+        children: <Widget>[_firstRow(context), _secondRow(context)],
       ),
     );
   }
@@ -437,7 +446,7 @@ class _GoodsState extends State<Goods> {
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border(bottom: BorderSide(width: 1, color: Colors.black12))),
-      child: Text('火爆专区 '),
+      child: Text('火爆专区'),
     );
   }
 

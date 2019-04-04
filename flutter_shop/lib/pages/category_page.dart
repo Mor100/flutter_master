@@ -5,6 +5,8 @@ import 'package:flutter_shop/model/category_goods.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
 import '../provide/category_provide.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'dart:convert';
 
@@ -109,8 +111,8 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
       setState(() {
         _categoryList = categoryModel.data;
       });
-      Provide.value<CategoryChild>(context)
-          .getCategoryChild(_categoryList[0].bxMallSubDto, _categoryList[0].mallCategoryId);
+      Provide.value<CategoryChild>(context).getCategoryChild(
+          _categoryList[0].bxMallSubDto, _categoryList[0].mallCategoryId);
       // Provide.value<CategoryGoodListProvide>(context).getGoodList(_list);
       print(_categoryList[0].bxMallSubDto);
     });
@@ -154,7 +156,6 @@ class _RightCategoryDetailsState extends State<RightCategoryDetails> {
       onTap: () {
         Provide.value<CategoryChild>(context)
             .changeIndex(index, item.mallSubId);
-        print('子列表Id：${item.mallSubId}');
         _getGoodList(item.mallSubId);
       },
     );
@@ -195,7 +196,8 @@ class _RightCategoryDetailsState extends State<RightCategoryDetails> {
       if (categoryGoods.data == null) {
         Provide.value<CategoryGoodListProvide>(context).getGoodList([]);
       } else {
-        Provide.value<CategoryGoodListProvide>(context).getGoodList(categoryGoods.data);
+        Provide.value<CategoryGoodListProvide>(context)
+            .getGoodList(categoryGoods.data);
       }
     });
   }
@@ -207,6 +209,8 @@ class CategoryGoodList extends StatefulWidget {
 
 class _CategoryGoodListState extends State<CategoryGoodList> {
   List _list = [];
+  GlobalKey<RefreshFooterState> _footKey = GlobalKey<RefreshFooterState>();
+  ScrollController _controller = ScrollController();
 
   Widget _goodsImage(List list, int index) {
     return Container(
@@ -284,22 +288,71 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodListProvide>(
       builder: (context, child, data) {
-        if (data.goodList.length>0) {
-        return Container(
-          width: ScreenUtil().setWidth(1000),
-          height: ScreenUtil().setHeight(1000),
-          child: ListView.builder(
-            itemCount: data.goodList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _goodsItem(data.goodList, index);
-            },
-          ),
-        );
-          
-        }else{
-          return Center(child: Text('暂无数据'),);
+        try {
+          if (Provide.value<CategoryChild>(context).categoryPage == 1) {
+            _controller.jumpTo(0);
+          }
+        } catch (e) {
+          print(e);
+        }
+        if (data.goodList.length > 0) {
+          return Container(
+              width: ScreenUtil().setWidth(1000),
+              height: ScreenUtil().setHeight(1000),
+              child: EasyRefresh(
+                refreshFooter: ClassicsFooter(
+                  key: _footKey,
+                  bgColor: Colors.pink,
+                  textColor: Colors.white,
+                  moreInfo: '加载中……',
+                  moreInfoColor: Colors.white,
+                  showMore: true,
+                  noMoreText:
+                      Provide.value<CategoryChild>(context).categoryNoMoreText,
+                  loadReadyText: '上拉加载数据',
+                ),
+                child: ListView.builder(
+                  controller: _controller,
+                  itemCount: data.goodList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _goodsItem(data.goodList, index);
+                  },
+                ),
+                loadMore: () async {
+                  _getMoreList();
+                },
+              ));
+        } else {
+          return Center(
+            child: Text('暂无数据'),
+          );
         }
       },
     );
+  }
+
+  void _getMoreList() {
+    Provide.value<CategoryChild>(context).addPage();
+    request('getMallGoods', data: {
+      'categoryId': Provide.value<CategoryChild>(context).categoryChildId,
+      'categorySubId': Provide.value<CategoryChild>(context).categorySubId,
+      'page': Provide.value<CategoryChild>(context).categoryPage
+    }).then((value) {
+      var data = json.decode(value.toString());
+
+      CategoryGoodsModel model = CategoryGoodsModel.fromJson(data);
+      if (model.data == null) {
+        Fluttertoast.showToast(
+            msg: '没有数据了',
+            gravity: ToastGravity.BOTTOM,
+            toastLength: Toast.LENGTH_SHORT,
+            textColor: Colors.white,
+            backgroundColor: Colors.pink,
+            fontSize: 16);
+        Provide.value<CategoryChild>(context).changeText('没有更多数据');
+      } else {
+        Provide.value<CategoryGoodListProvide>(context).getMoreList(model.data);
+      }
+    });
   }
 }
