@@ -5,5 +5,6 @@ import '../pages/detail_page.dart';
 
 Handler routerHandler = Handler(handlerFunc: (context, params) {
   String goodsId = params['id'].first;
+  print(goodsId);
   return DetailPage(goodsId);
 });

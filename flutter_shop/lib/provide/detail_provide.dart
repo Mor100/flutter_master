@@ -5,15 +5,31 @@ import 'dart:convert';
 
 class DetailProvide with ChangeNotifier{
   DetailModel _model = null;
+  bool _isLeft = true;
+  bool _isRight = false;
+
 
   DetailModel get model => _model;
+  bool get isLeft => _isLeft;
+  bool get isRight => _isRight;
 
-  void getGoodsInfo(String id){
-    request('getGoodDetailById',data: {'goodId':id}).then((value){
+  void getGoodsInfo(String id)async{
+    await request('getGoodDetailById',data: {'goodId':id}).then((value){
       var data = json.decode(value.toString());
       print(data);
       _model = DetailModel.fromJson(data);
       notifyListeners();
     });
+  }
+
+  void changeLeftRight(bool isLeft){
+    if(isLeft){
+      _isLeft = true;
+      _isRight = false;
+    }else{
+      _isLeft = false;
+      _isRight = true;
+    }
+    notifyListeners();
   }
 }
