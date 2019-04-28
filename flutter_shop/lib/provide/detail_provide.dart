@@ -4,7 +4,7 @@ import 'package:flutter_shop/service/service_method.dart';
 import 'dart:convert';
 
 class DetailProvide with ChangeNotifier{
-  DetailModel _model = null;
+  DetailModel _model;
   bool _isLeft = true;
   bool _isRight = false;
 
@@ -16,7 +16,6 @@ class DetailProvide with ChangeNotifier{
   void getGoodsInfo(String id)async{
     await request('getGoodDetailById',data: {'goodId':id}).then((value){
       var data = json.decode(value.toString());
-      print(data);
       _model = DetailModel.fromJson(data);
       notifyListeners();
     });

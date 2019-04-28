@@ -43,7 +43,7 @@ class DetailTabBar extends StatelessWidget {
             bottom: BorderSide(width: 1,color: isLeft?Colors.pink:Colors.white)
           ),
         ),
-        child: Text('详细',style: TextStyle(color: isLeft?Colors.pink:Colors.black),),
+        child: Text('评论',style: TextStyle(color: isLeft?Colors.pink:Colors.black),),
       ),
     );
   }
