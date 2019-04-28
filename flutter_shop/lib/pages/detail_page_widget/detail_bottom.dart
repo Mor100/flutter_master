@@ -48,7 +48,7 @@ class DetailBottom extends StatelessWidget {
                     color: Colors.pink,
                     borderRadius: BorderRadius.circular(12)
                   ),
-                  child: Text('$goodsCount',style:TextStyle(color: Colors.white,fontSize:12)),
+                  child: Text('$goodsCount',style:TextStyle(color: Colors.white,fontSize:ScreenUtil().setSp(30))),
                 ),);
             },)
           ],
