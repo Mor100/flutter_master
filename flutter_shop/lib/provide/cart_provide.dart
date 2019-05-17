@@ -28,7 +28,7 @@ class CartProvide with ChangeNotifier {
       }
       if(item['isCheck']){
         totalPrice = totalPrice + cartInfoList[i].count*cartInfoList[i].price;
-        totalCount += cartInfoList[i].count;
+        // totalCount += cartInfoList[i].count;
       }
       i++;
     });

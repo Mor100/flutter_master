@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'cart_page_widget/cart_bottom.dart';
 import 'package:flutter_shop/provide/cart_provide.dart';
 import 'cart_page_widget/cart_item.dart';
@@ -16,24 +16,23 @@ class CartPage extends StatelessWidget {
         future: _getCartInfo(context),
         builder: (context, snapshot) {
           List cartList = Provide.value<CartProvide>(context).cartInfoList;
-          if (snapshot.hasData && cartList!=null) {
-            return Stack(
+          if (snapshot.hasData && cartList != null) {
+            return Column(
               children: <Widget>[
                 Provide<CartProvide>(
                   builder: (context, widget, provide) {
                     cartList = Provide.value<CartProvide>(context).cartInfoList;
-                    return ListView.builder(
-                        itemCount: cartList.length,
-                        itemBuilder: (context, index) {
-                          return CartItem(model: cartList[index]);
-                        });
+                    return Expanded(child: Container(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cartList.length,
+                          itemBuilder: (context, index) {
+                            return CartItem(model: cartList[index]);
+                          }),
+                    ),);
                   },
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: CartBottom(),
-                )
+                CartBottom(),
               ],
             );
           } else {

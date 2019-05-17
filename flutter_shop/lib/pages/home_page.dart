@@ -7,6 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'dart:convert';
 import 'package:flutter_shop/application/application.dart';
+import 'package:provide/provide.dart';
+import 'package:flutter_shop/provide/current_index_provide.dart';
+import 'package:flutter_shop/provide/category_provide.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -212,7 +215,31 @@ class TopNaivgator extends StatelessWidget {
   Widget _getNavigatorItem(context, item) {
     return InkWell(
       onTap: () {
-        print('发生了点击事件');
+        if(item['mallCategoryId']=='1'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+          Provide.value<CategoryChild>(context)
+            .navigator(1);
+        }else if(item['mallCategoryId']=='2'){
+          Provide.value<CategoryChild>(context)
+            .navigator(2);
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);      
+        }else if(item['mallCategoryId']=='3'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='4'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='5'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='6'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='7'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='8'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='9'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }else if(item['mallCategoryId']=='10'){
+          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
+        }
       },
       child: Column(
         children: <Widget>[

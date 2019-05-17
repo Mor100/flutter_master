@@ -7,7 +7,7 @@ import 'package:provide/provide.dart';
 import '../provide/category_provide.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:flutter_shop/provide/category_provide.dart';
 import 'dart:convert';
 
 class CategoryPage extends StatefulWidget {
@@ -89,6 +89,10 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
     page = 1;
     _getCategory();
     _getGoodList();
+    Provide.value<CategoryChild>(context)
+            .getCategoryChild(_categoryList, categoryId);
+        _getGoodList();
+    // _index = Provide.value<CategoryChild>(context).categoryChildIndex;
   }
 
   @override

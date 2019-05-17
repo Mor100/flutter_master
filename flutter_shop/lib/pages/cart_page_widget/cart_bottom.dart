@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
 import 'package:flutter_shop/provide/cart_provide.dart';
+import 'package:flutter_shop/pages/order_page.dart';
 
 class CartBottom extends StatelessWidget {
   Widget _selectAllButton(BuildContext context) {
@@ -25,7 +26,7 @@ class CartBottom extends StatelessWidget {
   Widget _totalPrice(BuildContext context) {
     double totalPrice = Provide.value<CartProvide>(context).totalPrice;
     return Container(
-      width: ScreenUtil().setWidth(550),
+      width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerRight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -61,7 +62,9 @@ class CartBottom extends StatelessWidget {
   Widget _payButton(BuildContext context) {
     int totalCount = Provide.value<CartProvide>(context).totalCount;
     return InkWell(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderPage()));
+        },
         child: Container(
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(10),
@@ -84,6 +87,7 @@ class CartBottom extends StatelessWidget {
       child: Provide<CartProvide>(
         builder: (context,widget,provide){
           return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _selectAllButton(context),
           _totalPrice(context),

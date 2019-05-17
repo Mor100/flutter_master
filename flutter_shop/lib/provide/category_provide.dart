@@ -23,10 +23,7 @@ class CategoryChild with ChangeNotifier {
     _index = 0;
     _categoryId = categoryId;
     BxMallSubDto all = BxMallSubDto(
-        mallCategoryId: '00',
-        mallSubId: '',
-        mallSubName: '全部',
-        comments: null);
+        mallCategoryId: '00', mallSubId: '', mallSubName: '全部', comments: null);
     _list = [all];
     _list.addAll(list);
     notifyListeners();
@@ -37,6 +34,11 @@ class CategoryChild with ChangeNotifier {
     _index = index;
     _subId = subId;
     _noMoreText = '';
+    notifyListeners();
+  }
+
+  void navigator(int index) {
+    _index = index;
     notifyListeners();
   }
 
@@ -60,7 +62,7 @@ class CategoryGoodListProvide with ChangeNotifier {
     notifyListeners();
   }
 
-  void getMoreList(List<CategoryListData> list){
+  void getMoreList(List<CategoryListData> list) {
     _list.addAll(list);
     notifyListeners();
   }
