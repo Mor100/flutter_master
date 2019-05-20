@@ -48,7 +48,7 @@ class LeftNavigatorBar extends StatefulWidget {
 
 class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
   List _categoryList = [];
-  List _list = [];
+  List<CategoryListData> _list = [];
   var _index = 0;
   var categoryId;
   var categorySubId;
@@ -88,11 +88,10 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
     categorySubId = '';
     page = 1;
     _getCategory();
+    var categoryList = _categoryList[0].bxMallSubDto;
+        Provide.value<CategoryChild>(context)
+            .getCategoryChild(categoryList, categoryId);
     _getGoodList();
-    Provide.value<CategoryChild>(context)
-            .getCategoryChild(_categoryList, categoryId);
-        _getGoodList();
-    // _index = Provide.value<CategoryChild>(context).categoryChildIndex;
   }
 
   @override
@@ -117,8 +116,8 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
       });
       Provide.value<CategoryChild>(context).getCategoryChild(
           _categoryList[0].bxMallSubDto, _categoryList[0].mallCategoryId);
-      // Provide.value<CategoryGoodListProvide>(context).getGoodList(_list);
-      print(_categoryList[0].bxMallSubDto);
+      Provide.value<CategoryGoodListProvide>(context).getGoodList(_list);
+      // print(_categoryList[0].bxMallSubDto);
     });
   }
 

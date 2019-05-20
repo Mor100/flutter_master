@@ -215,31 +215,8 @@ class TopNaivgator extends StatelessWidget {
   Widget _getNavigatorItem(context, item) {
     return InkWell(
       onTap: () {
-        if(item['mallCategoryId']=='1'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-          Provide.value<CategoryChild>(context)
-            .navigator(1);
-        }else if(item['mallCategoryId']=='2'){
-          Provide.value<CategoryChild>(context)
-            .navigator(2);
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);      
-        }else if(item['mallCategoryId']=='3'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='4'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='5'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='6'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='7'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='8'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='9'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }else if(item['mallCategoryId']=='10'){
-          Provide.value<CurrentIndexProvide>(context).changeIndex(1);
-        }
+        print(item['mallCategoryId']);
+        Provide.value<CurrentIndexProvide>(context).changeIndex(1);
       },
       child: Column(
         children: <Widget>[
