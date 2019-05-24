@@ -13,7 +13,6 @@ import 'provide/current_index_provide.dart';
 
 
 void main() {
-  var count = Count(0);
   var categoryChild = CategoryChild();
   var categoryGoods = CategoryGoodListProvide();
   var detailProvide = DetailProvide();
@@ -21,7 +20,6 @@ void main() {
   var currentIndexProvide = CurrentIndexProvide();
   var provider = Providers();
   provider
-    ..provide(Provider<Count>.value(count))
     ..provide(Provider<CategoryChild>.value(categoryChild))
     ..provide(Provider<CategoryGoodListProvide>.value(categoryGoods))
     ..provide(Provider<DetailProvide>.value(detailProvide))

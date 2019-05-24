@@ -389,14 +389,14 @@ class Floor extends StatelessWidget {
 
   Floor({Key key, this.floorList}) : super(key: key);
 
-  Widget _goodsItem(Map src,BuildContext context) {
+  Widget _goodsItem(List list,int index,BuildContext context) {
     return Container(
       width: ScreenUtil().setWidth(540),
       child: InkWell(
         onTap: () {
-          // Application.router.navigateTo(context, '/detail?id=${src.toString()}');
+          Application.router.navigateTo(context, '/detail?id=${list[index]['goodsId']}');
         },
-        child: Image.network(src['image']),
+        child: Image.network(list[index]['image']),
       ),
     );
   }
@@ -405,11 +405,11 @@ class Floor extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          _goodsItem(floorList[0],context),
+          _goodsItem(floorList,0,context),
           Column(
             children: <Widget>[
-              _goodsItem(floorList[1],context),
-              _goodsItem(floorList[2],context),
+              _goodsItem(floorList,1,context),
+              _goodsItem(floorList,2,context),
             ],
           )
         ],
@@ -421,8 +421,8 @@ class Floor extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          _goodsItem(floorList[3],context),
-          _goodsItem(floorList[4],context),
+          _goodsItem(floorList,3,context),
+          _goodsItem(floorList,4,context),
         ],
       ),
     );

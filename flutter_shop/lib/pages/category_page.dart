@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/application/application.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import '../model/category.dart';
 import 'package:flutter_shop/model/category_goods.dart';
@@ -88,10 +89,11 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
     categorySubId = '';
     page = 1;
     _getCategory();
-    var categoryList = _categoryList[0].bxMallSubDto;
-        Provide.value<CategoryChild>(context)
-            .getCategoryChild(categoryList, categoryId);
+    // var categoryList = _categoryList[0].bxMallSubDto;
+    // Provide.value<CategoryChild>(context)
+    //     .getCategoryChild(categoryList, categoryId);
     _getGoodList();
+    print('categoryId:$categoryId,categorySubId:$categorySubId,page:$page');
   }
 
   @override
@@ -114,8 +116,8 @@ class _LeftNavigatorBarState extends State<LeftNavigatorBar> {
       setState(() {
         _categoryList = categoryModel.data;
       });
-      Provide.value<CategoryChild>(context).getCategoryChild(
-          _categoryList[0].bxMallSubDto, _categoryList[0].mallCategoryId);
+      Provide.value<CategoryChild>(context)
+          .getCategoryChild(_categoryList[0].bxMallSubDto, '4');
       Provide.value<CategoryGoodListProvide>(context).getGoodList(_list);
       // print(_categoryList[0].bxMallSubDto);
     });
@@ -213,7 +215,7 @@ class CategoryGoodList extends StatefulWidget {
 class _CategoryGoodListState extends State<CategoryGoodList> {
   List _list = [];
   GlobalKey<RefreshFooterState> _footKey = GlobalKey<RefreshFooterState>();
-  ScrollController _controller = ScrollController();
+  ScrollController _controller = ScrollController()..addListener((){});
 
   Widget _goodsImage(List list, int index) {
     return Container(
@@ -258,7 +260,10 @@ class _CategoryGoodListState extends State<CategoryGoodList> {
 
   Widget _goodsItem(List list, int index) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          // print('${list[index]}');
+          Application.router.navigateTo(context, '/detail?id=${list[index].goodsId}');
+        },
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,

@@ -23,7 +23,7 @@ class DetailPage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text(id),
+        title: Text('商品信息'),
       ),
       body: FutureBuilder(
         builder: (context, snapshot) {
