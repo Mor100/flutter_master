@@ -18,4 +18,4 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Show Views
 
-![alt](/images/1.png)
+![](images/1.png)
